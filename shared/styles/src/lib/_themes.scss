@@ -1,0 +1,27 @@
+@import 'variables';
+
+// Theme mapping function
+@function theme-color($key,$mode) {
+    @return map-get(map-get($colors,$key),$mode)
+};
+
+// Define light and dark theme variable
+$theme-light: (
+    primary:theme-color(primary,light),
+    secondary:theme-color(secondary,light),
+    accent:theme-color(accent,light),
+    text:theme-color(text,light),
+    info:theme-color(info,light),
+    warning:theme-color(warning,light),
+    error:theme-color(error,light),
+);
+
+$theme-dark: (
+    primary:theme-color(primary,dark),
+    secondary:theme-color(secondary,dark),
+    accent:theme-color(accent,dark),
+    text:theme-color(text,dark),
+    info:theme-color(info,dark),
+    warning:theme-color(warning,dark),
+    error:theme-color(error,dark),
+);

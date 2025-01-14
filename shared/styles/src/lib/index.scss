@@ -1,0 +1,21 @@
+@import 'variables';
+@import 'themes';
+@import 'mixins';
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// Light theme
+:root {
+    @include apply-theme($theme-light);
+};
+
+// Dark theme
+[data-theme='dark'] {
+    @include apply-theme($theme-dark);
+};
