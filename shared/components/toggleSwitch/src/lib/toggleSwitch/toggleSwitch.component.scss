@@ -56,6 +56,16 @@ input:checked + .slider:before {
     transform: translateX(calc(0.75rem * var(--sizeFactor)));
 }
 
+/*Apply styling for disabled switch*/
+:host.disabled {
+    opacity: 0.5; /*Make switch look fade when disabled*/
+}
+
+.switch input:disabled + .slider {
+    pointer-events: none;
+    background-color: var(--primary,$primary);
+}
+
 /* Rounded sliders */
 :host(.rounded) {
     .slider.round {

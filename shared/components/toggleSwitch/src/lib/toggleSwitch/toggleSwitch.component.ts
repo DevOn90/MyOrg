@@ -29,6 +29,11 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   @Input() eventName: string = 'toggleChange'; //Custom event name, default is 'toggleChange'
   @Output() switchToggle:EventEmitter<{state:boolean,eventName:string}> = new EventEmitter();
 
+  @Input() disabled:boolean = false;
+  @HostBinding('class.disabled') get isDisabled():boolean {
+    return this.disabled;
+  };
+
   ngOnInit(): void {
     this.applyDefaultSetting();
   }
@@ -44,6 +49,8 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   }
 
   onToggleSwitch(event:Event) {
+    if(this.disabled) return; //Prevent toggling if switch is disabled
+    
     const checkbox = event.target as HTMLInputElement;
     const previousState = this.isToggleOn;
     this.isToggleOn = checkbox.checked;
