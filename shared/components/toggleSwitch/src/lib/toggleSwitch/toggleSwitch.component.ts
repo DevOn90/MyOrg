@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -25,6 +25,10 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   @HostBinding('style.--primary') primary?:string;
   @HostBinding('style.--accent') accent?:string;
 
+  @Input() isToggleOn:boolean = false; // Default is set off
+  @Input() eventName: string = 'toggleChange'; //Custom event name, default is 'toggleChange'
+  @Output() switchToggle:EventEmitter<{state:boolean,eventName:string}> = new EventEmitter();
+
   ngOnInit(): void {
     this.applyDefaultSetting();
   }
@@ -37,5 +41,18 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
 
   private applyDefaultSetting() {
     this.sizeFactor = `${this.size ?? 1}`; // Use 1 as fallback value
+  }
+
+  onToggleSwitch(event:Event) {
+    const checkbox = event.target as HTMLInputElement;
+    const previousState = this.isToggleOn;
+    this.isToggleOn = checkbox.checked;
+
+    if(this.isToggleOn !== previousState) {
+      this.switchToggle.emit({
+        state:this.isToggleOn,
+        eventName:this.eventName
+      })
+    }
   }
 }

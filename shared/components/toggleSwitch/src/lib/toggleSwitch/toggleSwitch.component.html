@@ -1,4 +1,7 @@
 <label class="switch">
-    <input type="checkbox">
+    <input 
+    type="checkbox"
+    [checked]="isToggleOn"
+    (change)="onToggleSwitch($event)">
     <span class="slider round"></span>
 </label>
