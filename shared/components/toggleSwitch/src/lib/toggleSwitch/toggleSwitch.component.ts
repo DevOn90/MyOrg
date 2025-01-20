@@ -19,12 +19,20 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
     return this.variant === 'squared';
   };
 
+  @Input() primaryColor?:string;
+  @Input() accentColor?:string;
+
+  @HostBinding('style.--primary') primary?:string;
+  @HostBinding('style.--accent') accent?:string;
+
   ngOnInit(): void {
     this.applyDefaultSetting();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.applyDefaultSetting();
+    this.primary = this.primaryColor;
+    this.accent = this.accentColor;
   }
 
   private applyDefaultSetting() {

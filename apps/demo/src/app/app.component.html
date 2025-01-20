@@ -1,4 +1,21 @@
-<lib-toggle-switch
-    >    
-</lib-toggle-switch>
+<div class="container">
+    <span>
+        <label for="">Global</label>
+        <lib-toggle-switch></lib-toggle-switch>
+    </span>
+    <span>
+        <label>Custom color</label>
+        <lib-toggle-switch
+            [primaryColor]="'#000000'"
+            [accentColor]="'#d65db1'">    
+        </lib-toggle-switch>
+    </span>
+    <span>
+        <label for="">Basic</label>
+        <lib-toggle-switch>
+        </lib-toggle-switch>
+    </span>
+</div>
+
+
 <router-outlet></router-outlet>

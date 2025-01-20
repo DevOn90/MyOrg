@@ -1,9 +1,7 @@
 /*Set default colors*/
-$primary: #ffffff;
+$primary: var(--primary,#ffffff);
 $accent: #2196F3;
-$derivativePrimary: color-mix(in hsl shorter hue,#000000 20%,#ffffff 80%);
-//$sizeFactor: 2;
- 
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;
@@ -27,7 +25,7 @@ $derivativePrimary: color-mix(in hsl shorter hue,#000000 20%,#ffffff 80%);
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #{$derivativePrimary};
+    background-color: var(--primary,$primary);
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -39,17 +37,17 @@ $derivativePrimary: color-mix(in hsl shorter hue,#000000 20%,#ffffff 80%);
     width: calc(0.75rem * var(--sizeFactor));
     left: calc(0.1175rem * var(--sizeFactor));
     bottom: calc(0.1175rem * var(--sizeFactor));
-    background-color: #{$primary};
+    background-color: var(--accent,$accent);
     -webkit-transition: .4s;
     transition: .4s;
 }
   
 input:checked + .slider {
-    background-color: #{$accent};
+    background-color: var(--primary,$primary);
 }
   
 input:focus + .slider {
-    box-shadow: 0 0 1px #{$accent};
+    box-shadow: 0 0 1px var(--primary,$primary);
 }
   
 input:checked + .slider:before {
