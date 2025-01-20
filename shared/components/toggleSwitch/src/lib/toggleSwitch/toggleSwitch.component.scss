@@ -3,14 +3,14 @@ $primary: #ffffff;
 $accent: #2196F3;
 $derivativePrimary: mix(#000000,#ffffff,20%);
 
-$sizeFactor: 1;
+//$sizeFactor: 2;
  
 /* The switch - the box around the slider */
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: calc(1.75rem * var(--sizeFactor));
+    height: calc(1rem * var(--sizeFactor));
 }
   
 /* Hide default HTML checkbox */
@@ -36,10 +36,10 @@ $sizeFactor: 1;
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: calc(0.75rem * var(--sizeFactor));
+    width: calc(0.75rem * var(--sizeFactor));
+    left: calc(0.1175rem * var(--sizeFactor));
+    bottom: calc(0.1175rem * var(--sizeFactor));
     background-color: #{$primary};
     -webkit-transition: .4s;
     transition: .4s;
@@ -54,14 +54,14 @@ input:focus + .slider {
 }
   
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(calc(0.75rem * -var(--sizeFactor)));
+    -ms-transform: translateX(calc(0.75rem * var(--sizeFactor)));
+    transform: translateX(calc(0.75rem * var(--sizeFactor)));
 }
   
 /* Rounded sliders */
 .slider.round {
-    border-radius: 34px;
+    border-radius: calc(1rem * var(--sizeFactor));
 }
   
 .slider.round:before {
