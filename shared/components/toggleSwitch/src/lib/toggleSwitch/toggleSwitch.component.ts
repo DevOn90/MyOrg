@@ -9,8 +9,15 @@ import { CommonModule } from '@angular/common';
 })
 export class ToggleSwitchComponent implements OnInit, OnChanges {
 
-  @Input() size!:number;
-  @HostBinding('style.--sizeFactor') sizeFactor!:string;
+  @Input() size?:number;
+  @Input() variant: 'rounded' | 'squared' = 'rounded';
+  @HostBinding('style.--sizeFactor') sizeFactor?:string;
+  @HostBinding('class.rounded') get isRounded():boolean {
+    return this.variant === 'rounded';
+  };
+  @HostBinding('class.squared') get isSquared():boolean {
+    return this.variant === 'squared';
+  };
 
   ngOnInit(): void {
     this.applyDefaultSetting();
@@ -21,6 +28,6 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   }
 
   private applyDefaultSetting() {
-    this.sizeFactor = `${this.size || 1}`; // Use 1 as fallback value
+    this.sizeFactor = `${this.size ?? 1}`; // Use 1 as fallback value
   }
 }

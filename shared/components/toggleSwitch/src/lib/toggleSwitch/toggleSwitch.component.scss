@@ -58,12 +58,29 @@ input:checked + .slider:before {
     -ms-transform: translateX(calc(0.75rem * var(--sizeFactor)));
     transform: translateX(calc(0.75rem * var(--sizeFactor)));
 }
-  
+
 /* Rounded sliders */
-.slider.round {
+:host(.rounded) {
+    .slider.round {
     border-radius: calc(1rem * var(--sizeFactor));
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
 }
+
+/* Squared sliders */
+:host(.squared) {
+    .slider.round {
+    border-radius: 0;
+    }
+
+    .slider.round:before {
+        border-radius: 0;
+    }
+}
+
+
   
-.slider.round:before {
-    border-radius: 50%;
-} 
+ 
