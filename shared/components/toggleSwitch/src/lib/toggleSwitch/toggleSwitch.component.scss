@@ -1,8 +1,7 @@
 /*Set default colors*/
 $primary: #ffffff;
 $accent: #2196F3;
-$derivativePrimary: mix(#000000,#ffffff,20%);
-
+$derivativePrimary: color-mix(in hsl shorter hue,#000000 20%,#ffffff 80%);
 //$sizeFactor: 2;
  
 /* The switch - the box around the slider */
