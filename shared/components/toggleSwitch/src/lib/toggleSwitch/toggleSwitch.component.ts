@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -27,15 +27,25 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
 
   @Input() isToggleOn:boolean = false; // Default is set off
   @Input() eventName: string = 'toggleChange'; //Custom event name, default is 'toggleChange'
-  @Output() switchToggle:EventEmitter<{state:boolean,eventName:string}> = new EventEmitter();
+  @Output() switchToggle:EventEmitter<{state:boolean,id?:string,eventName:string}> = new EventEmitter();
 
   @Input() disabled:boolean = false;
   @HostBinding('class.disabled') get isDisabled():boolean {
     return this.disabled;
   };
 
+  @HostBinding('attr.id') @Input() id?:string;
+  private hostId?:string;
+
+  constructor(private hostElement:ElementRef) {}
+
   ngOnInit(): void {
     this.applyDefaultSetting();
+    
+    this.hostId = 
+      this.id || 
+      this.hostElement.nativeElement.getAttribute('id') ||
+      undefined
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -58,6 +68,7 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
     if(this.isToggleOn !== previousState) {
       this.switchToggle.emit({
         state:this.isToggleOn,
+        id:this.hostId,
         eventName:this.eventName
       })
     }

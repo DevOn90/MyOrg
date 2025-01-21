@@ -13,7 +13,11 @@ import { ToggleSwitchComponent } from '@my-org/toggleSwitch';
 export class AppComponent {
   title = 'demo';
 
-  onToggle(event:{state:boolean,eventName:string}) {
-    console.log(`Event name: ${event.eventName} Switch state: ${event.state}`)
+  onToggle(event:{state:boolean,id?:string,eventName:string}) {
+    console.log(
+      `Event name: ${event.eventName} 
+       Id: ${event.id} 
+      Switch state: ${event.state}`
+      )
   }
 }
