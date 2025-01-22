@@ -2,6 +2,14 @@
 $primary: #ffffff;
 $accent: #2196F3;
 
+/*Host box around its childs */
+:host {
+    display: inline-block;
+    box-sizing: border-box;
+    width: fit-content;
+    height: calc(1rem * var(--sizeFactor));
+}
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;
