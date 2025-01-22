@@ -1,6 +1,18 @@
 {
-  "name": "@my-org/toggleSwitch",
-  "version": "0.0.1",
+  "name": "@my-org/toggle-switch",
+  "version": "1.0.0",
+  "description": "A customizable toggle switch component for Nc apps.",
+  "author": "Jan Svatos",
+  "license":"MIT",
+  "homepage": "tbd",
+  "repository": {
+    "type": "git",
+    "url": "git+https://tbd"
+  },
+  "bugs": {
+    "url": "https://tbd"
+  },
+  "keywords": ["angular","toggle-switch","component","library"],
   "peerDependencies": {
     "@angular/common": "^19.0.0",
     "@angular/core": "^19.0.0"

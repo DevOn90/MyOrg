@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@my-org/toggleSwitch": ["shared/components/toggleSwitch/src/index.ts"]
+      "@my-org/toggle-switch": ["shared/components/toggleSwitch/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
