@@ -2,28 +2,26 @@
     <span>
         <label for="">Custom</label>
         <lib-toggle-switch
-        [size]="2"
-        [primaryColor]="'#ffffff'"
-        [accentColor]="'#bbf8aa'"
-        [isToggleOn]="false"
-        variant="squared"
+        [switchProps]="{
+            id:'custom',
+            primaryColor:'#ffffff',
+            accentColor:'#DD0000'
+        }"
         (switchToggle)="onToggle($event)">
         </lib-toggle-switch>
     </span>
     <span>
         <label>Global</label>
         <lib-toggle-switch
-            [isToggleOn]="false"
-            [disabled]="false"
-            (switchToggle)="onToggle($event)">    
+        [switchProps]="{id:'global'}"
+        (switchToggle)="onToggle($event)">    
         </lib-toggle-switch>
     </span>
     <span>
         <label for="">Basic</label>
         <lib-toggle-switch
-        [isToggleOn]="false"
-        (switchToggle)="onToggle($event)"
-        [disabled]="false">
+        [switchProps]="{id:'125',size:2}"
+        (switchToggle)="onToggle($event)">
         </lib-toggle-switch>
     </span>
 </div>
