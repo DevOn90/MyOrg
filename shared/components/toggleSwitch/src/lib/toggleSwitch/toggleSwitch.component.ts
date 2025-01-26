@@ -23,7 +23,7 @@ import { SwitchProps } from './switch-props';
   selector: 'lib-toggle-switch',
   imports: [CommonModule],
   template: `
-      <ng-container *ngIf="switchProps?.id || switchProps?.eventName;">
+      <ng-container *ngIf="switchProps?.id?.trim() || switchProps?.eventName?.trim();">
         <label class="switch">
         <input 
           type="checkbox"
@@ -43,8 +43,8 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
    * ## Usage: 
    * ```html
    * [switchProps]="{
-   *    id?:string; // An "id" or "eventName must be assigned". 
-   *    eventName?:string; // An "id" or "eventName must be assigned".
+   *    id?:string; // An "id" or "eventName must be assigned. No whitespace". 
+   *    eventName?:string; // An "id" or "eventName must be assigned No whitespace".
    *    size?:number; // Default 1
    *    variant?: 'rounded' | 'squared' // Default rounded.
    *    primaryColor?:string; // Default #ffffff
@@ -124,10 +124,11 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   private validateProps():void {
     const { id,eventName } = this.switchProps || {};
 
-    if(!id && !eventName) {
+    if(!id?.trim() && !eventName?.trim()) {
       throw new Error(
         'Either "id" or "eventName" must be provided in [switchProps]' +
-        ' component properties object. See component documentation.'
+        ' component properties object. The value shall not be white space.' + 
+        ' See component documentation.'
       )
     }
   }

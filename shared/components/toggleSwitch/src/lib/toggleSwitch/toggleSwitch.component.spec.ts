@@ -38,7 +38,7 @@ describe('ToggleSwitchComponent', () => {
     expect(() => {
       component.ngOnInit();
     }).toThrowError(
-      'Either "id" or "eventName" must be provided in [switchProps] component properties object. See component documentation.'
+      'Either "id" or "eventName" must be provided in [switchProps] component properties object. The value shall not be white space. See component documentation.'
     );
 
     const switchLabel = fixture.debugElement.query(By.css('label.switch'));
