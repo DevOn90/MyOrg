@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ToggleSwitchComponent } from '@my-org/toggleSwitch';
+import { ToggleSwitchComponent } from '@my-org/toggle-switch';
 @Component({
   imports: [
     RouterModule,
