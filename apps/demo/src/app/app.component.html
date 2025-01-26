@@ -3,7 +3,8 @@
         <label for="">Custom</label>
         <lib-toggle-switch
         [switchProps]="{
-            id:'custom',
+            eventName:'something',
+            size:2,
             primaryColor:'#ffffff',
             accentColor:'#DD0000'
         }"
@@ -23,6 +24,14 @@
         [switchProps]="{id:'125'}"
         (switchToggle)="onToggle($event)">
         </lib-toggle-switch>
+    </span>
+    <span>
+        <label for="">Blank</label>
+        <lib-toggle-switch
+        [switchProps]="{
+            id:'stiwch-123',
+            size:2
+        }"></lib-toggle-switch>
     </span>
 </div>
 <router-outlet></router-outlet>
