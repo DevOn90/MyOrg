@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToggleSwitchComponent } from './toggleSwitch.component';
+import { By } from '@angular/platform-browser';
 
 describe('ToggleSwitchComponent', () => {
   let component: ToggleSwitchComponent;
   let fixture: ComponentFixture<ToggleSwitchComponent>;
 
+  // Setup before each test
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ToggleSwitchComponent],
@@ -12,10 +14,121 @@ describe('ToggleSwitchComponent', () => {
 
     fixture = TestBed.createComponent(ToggleSwitchComponent);
     component = fixture.componentInstance;
+
+    component.switchProps = {id:'test-id'};
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have default values set for switchProps', () => {
+    // Default values when not provided by the user
+    expect(component.switchProps.size).toBe(1);
+    expect(component.switchProps.variant).toBe('rounded');
+    expect(component.switchProps.isToggleOn).toBe(false);
+    expect(component.switchProps.disabled).toBe(false);
+  });
+
+  it('should not render the component and throw an error if neither id nor eventName provided', () => {
+    component.switchProps = {};
+    fixture.detectChanges();  
+
+    expect(() => {
+      component.ngOnInit();
+    }).toThrowError(
+      'Either "id" or "eventName" must be provided in [switchProps] component properties object. See component documentation.'
+    );
+
+    const switchLabel = fixture.debugElement.query(By.css('label.switch'));
+    expect(switchLabel).toBeNull();
+
+  });
+
+  it('should set the correct size factor style based on switchProps size', () => {
+    component.switchProps.size = 2;
+    component.ngOnChanges({});
+    fixture.detectChanges();
+    
+    const hostElement = fixture.debugElement.nativeElement;
+    expect(hostElement.style.getPropertyValue('--sizeFactor')).toBe('2');
+  });
+
+  it('should apply the correct class for variant (rounded)', () => {
+    component.switchProps.variant = 'rounded';
+    component.ngOnInit();
+    fixture.detectChanges();
+    const hostElement = fixture.debugElement.nativeElement;
+    expect(hostElement.classList).toContain('rounded');
+  });
+
+  it('should apply the correct class for variant (squared)', () => {
+    component.switchProps.variant = 'squared';
+    component.ngOnInit();
+    fixture.detectChanges();
+    const hostElement = fixture.debugElement.nativeElement;
+    expect(hostElement.classList).toContain('squared');
+  });
+
+  it('should emit switchToggle event when toggle switch state changes', () => {
+    jest.spyOn(component.switchToggle, 'emit');
+
+    const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+
+    expect(component.switchToggle.emit).toHaveBeenCalledWith({
+      state: true,
+      id: 'test-id',
+      eventName: undefined,
+    });
+  });
+
+  it('should not emit switchToggle event if switch is disabled', () => {
+    jest.spyOn(component.switchToggle, 'emit');
+    component.switchProps.disabled = true;
+    fixture.detectChanges();
+
+    const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+
+    expect(component.switchToggle.emit).not.toHaveBeenCalled();
+  });
+
+  it('should bind the "disabled" property correctly to input element', () => {
+    component.switchProps.disabled = true;
+    fixture.detectChanges();
+    const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+    expect(checkbox.disabled).toBeTruthy();
+  });
+
+  it('should apply the correct dynamic styles for primary and accent colors', () => {
+    component.switchProps.primaryColor = '#ff5733';
+    component.switchProps.accentColor = '#33c1ff';
+    component.ngOnChanges({});
+    fixture.detectChanges();
+    
+    const hostElement = fixture.debugElement.nativeElement;
+    expect(hostElement.style.getPropertyValue('--primary')).toBe('#ff5733');
+    expect(hostElement.style.getPropertyValue('--accent')).toBe('#33c1ff');
+  });
+
+  it('should correctly handle the change event and update toggle state', () => {
+    const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    expect(component.switchProps.isToggleOn).toBe(true);
+  });
+
+  it('should reflect the initial checked state based on switchProps.isToggleOn', () => {
+    component.switchProps.isToggleOn = true;
+    fixture.detectChanges();
+
+    const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+    expect(checkbox.checked).toBe(true);
   });
 });
