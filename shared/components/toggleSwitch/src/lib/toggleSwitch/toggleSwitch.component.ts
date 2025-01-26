@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SwitchProps } from './switch-props';
 
@@ -23,14 +23,17 @@ import { SwitchProps } from './switch-props';
   selector: 'lib-toggle-switch',
   imports: [CommonModule],
   template: `
-      <label class="switch">
-      <input 
-        type="checkbox"
-        [disabled]="switchProps.disabled"
-        [checked]="switchProps.isToggleOn"
-        (change)="onToggleSwitch($event)">
-        <span class="slider round"></span>
-      </label>`,
+      <ng-container *ngIf="switchProps?.id || switchProps?.eventName;">
+        <label class="switch">
+        <input 
+          type="checkbox"
+          [disabled]="switchProps.disabled"
+          [checked]="switchProps.isToggleOn"
+          (change)="onToggleSwitch($event)">
+          <span class="slider round"></span>
+        </label>
+      </ng-container>
+      `,
   styleUrl: './toggleSwitch.component.scss',
 })
 export class ToggleSwitchComponent implements OnInit, OnChanges {
@@ -81,10 +84,6 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   get isSquared():boolean {
     return this.switchProps?.variant === 'squared';
   };
-
-  private hostId?:string;
-
-  constructor(private hostElement:ElementRef) {}
   
   /**
    * Lifecycle hook: Called once the component is initialized.
@@ -92,7 +91,7 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   ngOnInit(): void {   
     this.applyDefaultSetting();
     this.validateProps();
-  }
+   }
 
   /**
    * Lifecycle hook: Called whenever input properties change.
@@ -120,9 +119,10 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
 
   /**
    * Validate that either `id` or `eventName` is provided in switchProps.
+   * If not, raise error and block component rendering in template.
    */
   private validateProps():void {
-    const { id,eventName } = this.switchProps;
+    const { id,eventName } = this.switchProps || {};
 
     if(!id && !eventName) {
       throw new Error(
