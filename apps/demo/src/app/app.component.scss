@@ -3,4 +3,12 @@
     flex-direction: column;
     background-color: aquamarine;
 }
+
+.theme, .settings {
+    display: flex;
+    gap: 10px;
+    font-size: 2rem;
+}
+
+
   
