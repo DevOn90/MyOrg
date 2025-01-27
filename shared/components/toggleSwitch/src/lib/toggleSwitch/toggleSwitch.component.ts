@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SwitchProps } from './switch-props';
 
@@ -40,7 +40,7 @@ import { SwitchProps } from './switch-props';
 })
 export class ToggleSwitchComponent implements OnInit, OnChanges {
 
-  hasError:boolean = false; // Flag to track if error occurred
+  hasError = false; // Flag to track if error occurred
 
   /**
    * Configuration object for the toggle switch.
@@ -105,7 +105,7 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
    * to prevent rendering & raise error.
    * Declare props needed for component initialization ,but may change.
    */
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     try{
       this.validateProps();
       this.validateSwitchToggleBinding();

@@ -43,9 +43,9 @@ describe('ToggleSwitchComponent', () => {
     fixture.detectChanges();  
 
     expect(() => {
-      component.ngOnChanges({});
+      component.ngOnChanges();
     }).toThrow(
-      'Either \"id"\ or \"eventName"\ must be provided in [switchProps] component properties object. The value shall not be white space. See component documentation.'
+      'Either "id" or "eventName" must be provided in [switchProps] component properties object. The value shall not be white space. See component documentation.'
     );
 
     // Expect the host element not to exist in the DOM when hasError is true
@@ -70,7 +70,7 @@ describe('ToggleSwitchComponent', () => {
   };
 
     // Expect the validation to throw an error
-    expect(() => component.ngOnChanges(changes)).toThrow(
+    expect(() => component.ngOnChanges()).toThrow(
       'The "switchToggle" output is mandatory on component. Please bind an event handler to it.'
     );
   });
