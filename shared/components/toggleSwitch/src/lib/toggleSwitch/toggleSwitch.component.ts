@@ -23,9 +23,11 @@ import { SwitchProps } from './switch-props';
   selector: 'lib-toggle-switch',
   imports: [CommonModule],
   template: `
-      <ng-container *ngIf="switchProps?.id?.trim() || switchProps?.eventName?.trim();">
-        <label class="switch">
+      <ng-container *ngIf="!this.hasError;">
+        <label class="switch" [for]="switchProps.id || 'default-switch'">
         <input 
+          [id]="switchProps.id || 'default-switch'"
+          [name]="switchProps.id || 'default-switch'"
           type="checkbox"
           [disabled]="switchProps.disabled"
           [checked]="switchProps.isToggleOn"
@@ -37,6 +39,8 @@ import { SwitchProps } from './switch-props';
   styleUrl: './toggleSwitch.component.scss',
 })
 export class ToggleSwitchComponent implements OnInit, OnChanges {
+
+  hasError:boolean = false; // Flag to track if error occurred
 
   /**
    * Configuration object for the toggle switch.
@@ -86,21 +90,41 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   };
   
   /**
-   * Lifecycle hook: Called once the component is initialized.
+   * Set default proprerties and declare props required 
+   * for component initialization.
    */
   ngOnInit(): void {   
-    this.applyDefaultSetting();
+    this.applyDefaultSetting();  
     this.validateProps();
+    this.validateSwitchToggleBinding();
+    this.initializeHostProps();
    }
 
   /**
-   * Lifecycle hook: Called whenever input properties change.
+   * Validate the input properties whenever they change, else set "hasError" flag
+   * to prevent rendering & raise error.
+   * Declare props needed for component initialization ,but may change.
    */
   ngOnChanges(changes: SimpleChanges): void {
-    this.applyDefaultSetting();
+    try{
+      this.validateProps();
+      this.validateSwitchToggleBinding();
+      this.initializeHostProps();
+    }catch (error){
+      this.hasError = true;
+      console.error(error);
+      throw error
+    };
+  }
+
+  /**
+   * Initialize Host property needed for component initialization.
+   */
+  private initializeHostProps():void {
     this.primary = this.switchProps?.primaryColor;
     this.accent = this.switchProps?.accentColor;
-  }
+    this.sizeFactor = `${this.switchProps?.size}`;
+  };
 
   /**
    * Apply default settings for optional properties in switchProps.
@@ -110,16 +134,18 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
     this.switchProps = {
       size: 1, // Default size
       variant: 'rounded', // Default variant
+      primaryColor: '#ffffff', // Default primary color
+      accentColor: '#2196F3', // Default accent color
       isToggleOn: false, // Default toggle state 
       disabled: false, // Default disable state
       ...this.switchProps, // Override with provided values (if any)
     };
-    this.sizeFactor = `${this.switchProps.size}`;
   }
 
   /**
    * Validate that either `id` or `eventName` is provided in switchProps.
-   * If not, raise error and block component rendering in template.
+   * The value shall not be whitespace.
+   * If not, raise error to block component rendering in template.
    */
   private validateProps():void {
     const { id,eventName } = this.switchProps || {};
@@ -134,10 +160,24 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Validate that "switchToggle" output is provided to component and
+   * bind event handler to it. If not, an error will be raised, what does block
+   * component rendering in template.  
+   */
+  private validateSwitchToggleBinding():void {
+    if(!this.switchToggle.observed) {
+      throw new Error(
+        'The "switchToggle" output is mandatory on component.'+
+        ' Please bind an event handler to it.'
+      ) 
+    }
+  };
+
+  /**
    * Handle toggle switch changes and emit the switchToggle event.
    * @param event The DOM event triggered by user interaction.
    */
-  onToggleSwitch(event:Event) {
+  onToggleSwitch(event:Event):void {
     if(this.switchProps?.disabled) return; //Prevent toggling if switch is disabled
     
     const checkbox = event.target as HTMLInputElement;
