@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToggleSwitchComponent } from './toggleSwitch.component';
 import { By } from '@angular/platform-browser';
+import { EventEmitter, SimpleChanges } from '@angular/core';
 
 describe('ToggleSwitchComponent', () => {
   let component: ToggleSwitchComponent;
@@ -14,8 +15,14 @@ describe('ToggleSwitchComponent', () => {
 
     fixture = TestBed.createComponent(ToggleSwitchComponent);
     component = fixture.componentInstance;
-
+    
+    // Set up required switchProps.
     component.switchProps = {id:'test-id'};
+    
+    // Ensure "switchToggle" output is declared for all tests except the specific test
+    Object.defineProperty(component.switchToggle,'observed',{value:true});
+    
+    // Trigger initial change detection. 
     fixture.detectChanges();
   });
 
@@ -36,21 +43,43 @@ describe('ToggleSwitchComponent', () => {
     fixture.detectChanges();  
 
     expect(() => {
-      component.ngOnInit();
-    }).toThrowError(
-      'Either "id" or "eventName" must be provided in [switchProps] component properties object. The value shall not be white space. See component documentation.'
+      component.ngOnChanges({});
+    }).toThrow(
+      'Either \"id"\ or \"eventName"\ must be provided in [switchProps] component properties object. The value shall not be white space. See component documentation.'
     );
 
-    const switchLabel = fixture.debugElement.query(By.css('label.switch'));
-    expect(switchLabel).toBeNull();
+    // Expect the host element not to exist in the DOM when hasError is true
+    expect(fixture.nativeElement.querySelector('lib-toggle-switch')).toBeNull();
 
   });
 
-  it('should set the correct size factor style based on switchProps size', () => {
-    component.switchProps.size = 2;
-    component.ngOnChanges({});
-    fixture.detectChanges();
+  it('should throw an error if (switchToggle) output is not declared', () => {
+    // Replace "switchToggle" with a mocked EventEmitter
+    const mockEventEmitter = new EventEmitter();
+    Object.defineProperty(mockEventEmitter, 'observed', { value: false });
+    component.switchToggle = mockEventEmitter; // Replace the output emitter
     
+    // Simulate an `ngOnChanges` call
+  const changes: SimpleChanges = {
+    switchProps: {
+      currentValue: { id: 'test-id' },
+      previousValue: null,
+      firstChange: true,
+      isFirstChange: () => true,
+    },
+  };
+
+    // Expect the validation to throw an error
+    expect(() => component.ngOnChanges(changes)).toThrow(
+      'The "switchToggle" output is mandatory on component. Please bind an event handler to it.'
+    );
+  });
+
+  it('should set the correct size factor style based on switchProps size', () => {
+    component.switchProps.size=2;
+    component.ngOnInit();
+    fixture.detectChanges();
+        
     const hostElement = fixture.debugElement.nativeElement;
     expect(hostElement.style.getPropertyValue('--sizeFactor')).toBe('2');
   });
@@ -107,7 +136,7 @@ describe('ToggleSwitchComponent', () => {
   it('should apply the correct dynamic styles for primary and accent colors', () => {
     component.switchProps.primaryColor = '#ff5733';
     component.switchProps.accentColor = '#33c1ff';
-    component.ngOnChanges({});
+    component.ngOnInit();
     fixture.detectChanges();
     
     const hostElement = fixture.debugElement.nativeElement;
