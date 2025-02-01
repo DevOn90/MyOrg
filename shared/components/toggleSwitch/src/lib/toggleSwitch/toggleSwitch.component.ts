@@ -134,8 +134,6 @@ export class ToggleSwitchComponent implements OnInit, OnChanges {
     this.switchProps = {
       size: 1, // Default size
       variant: 'rounded', // Default variant
-      primaryColor: '#ffffff', // Default primary color
-      accentColor: '#2196F3', // Default accent color
       isToggleOn: false, // Default toggle state 
       disabled: false, // Default disable state
       ...this.switchProps, // Override with provided values (if any)
