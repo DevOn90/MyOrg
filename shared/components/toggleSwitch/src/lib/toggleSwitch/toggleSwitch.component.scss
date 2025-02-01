@@ -1,3 +1,7 @@
+/*Set Default Colors as fallback*/
+$primary:'#2196F3';
+$accent:'#ffffff'; 
+
 /*Host box around its childs */
 :host {
     display: inline-block;
@@ -28,7 +32,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--primary);
+    background-color: var(--primary,#{$primary});
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -40,17 +44,17 @@
     width: calc(0.75rem * var(--sizeFactor));
     left: calc(0.1175rem * var(--sizeFactor));
     bottom: calc(0.1175rem * var(--sizeFactor));
-    background-color: var(--accent);
+    background-color: var(--accent,#{$accent});
     -webkit-transition: .4s;
     transition: .4s;
 }
   
 input:checked + .slider {
-    background-color: var(--primary);
+    background-color: var(--primary,#{$primary});
 }
   
 input:focus + .slider {
-    box-shadow: 0 0 1px var(--primary);
+    box-shadow: 0 0 1px var(--primary,#{$primary});
 }
   
 input:checked + .slider:before {
@@ -66,7 +70,7 @@ input:checked + .slider:before {
 
 .switch input:disabled + .slider {
     pointer-events: none;
-    background-color: var(--primary);
+    background-color: var(--primary,#{$primary});
 }
 
 /* Rounded sliders */
